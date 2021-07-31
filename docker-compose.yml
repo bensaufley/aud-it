@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  client:
+    build:
+      context: ./client
+    command:
+      - ./script/dev
+    volumes:
+      - jsbuild:/usr/src/graphql-preact-starter/.build
+      - ./server/internal/schema/graphql:/usr/src/graphql-preact-starter/src/graphql/schema
+
+      - ./client:/usr/src/graphql-preact-starter
+      - ./server/internal/schema/graphql:/schema
+  server:
+    build:
+      context: ./server
+    command:
+      - ./script/dev
+    ports:
+      - '4510:8080'
+    volumes:
+      - db:/db
+      - jsbuild:/public
+
+      - ./server:/go/src/github.com/bensaufley/graphql-preact-starter
+volumes:
+  db:
+  jsbuild:
+    

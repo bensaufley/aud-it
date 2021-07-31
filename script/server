@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+script/setup
+
+docker-compose up

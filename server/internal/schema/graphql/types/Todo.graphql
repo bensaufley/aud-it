@@ -1,0 +1,18 @@
+enum TodoStatus {
+  UNSTARTED
+  IN_PROGRESS
+  ABANDONED
+  COMPLETE
+  DELETED
+}
+
+type Todo {
+  id: ID!
+  contents: String!
+  status: TodoStatus!
+}
+
+input TodoInput {
+  contents: String!
+  status: TodoStatus
+}

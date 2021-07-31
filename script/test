@@ -1,0 +1,66 @@
+#!/bin/bash
+
+cd "$(dirname "$0")/.." || exit 1
+
+fast=false
+
+usage() {
+  printf '\e[33mUsage:\e[0m \e[32mscript/test [-f] [-h] [service [args...]]\e[0m\n'
+  echo
+  echo 'Runs tests for client and/or server: by default, both. Captures'
+  echo 'coverage by default using istanbul and go coverprofile respectively.'
+  echo
+  echo '       -f:      fast mode. Does not run script/setup first.'
+  echo '       -h:      help. Shows this dialogue.'
+  echo '       service: "client" or "server" to only run one set of tests. May be'
+  printf '                passed \e[32margs\e[0m like \e[33mscript/test server -v ./internal/resolver\e[0m\n'
+  printf '                or \e[33mscript/test client -t components/App\e[0m\n'
+}
+
+while getopts 'fh' flag; do
+  case "$flag" in
+  f) fast=true ;;
+  h) usage; exit 0 ;;
+  *) printf '\e[31mError:\e[0m unrecognized flag "%s"\n' "$flag" >&2; exit 1 ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+to_run="both"
+
+if [ -n "$1" ]; then
+  arg="$(echo "$1" | tr '[:upper:]' '[:lower:]')"
+  if [ "$arg" = "client" ] || [ "$arg" = "server" ]; then
+    to_run="$arg"
+    shift
+  else
+    printf '\e[31mError:\e[0m unrecognized service "%s"\n' "$arg" >&2
+    usage
+    exit 1
+  fi
+fi
+
+[ "$fast" != "true" ] && script/setup
+
+cec="0"
+sec="0"
+
+if [ "$to_run" = "both" ] || [ "$to_run" = "client" ]; then
+  docker-compose run \
+    --rm \
+    client npm run test -- "$@"
+  cec="$?"
+fi
+
+if [ "$to_run" = "both" ] || [ "$to_run" = "server" ]; then
+  args=( "$@" )
+  if [ "${#args[@]}" = 0 ]; then args=( -covermode=atomic -coverprofile=cover.out ./... ); fi
+  docker-compose run \
+    --rm \
+    server go test -race "${args[@]}"
+  sec="$?"
+fi
+
+if [ "$cec" != 0 ]; then exit "$cec"; fi
+if [ "$sec" != 0 ]; then exit "$sec"; fi

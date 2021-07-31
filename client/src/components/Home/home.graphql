@@ -1,0 +1,29 @@
+query GetTodos {
+  todos: getTodos {
+    id
+    contents
+    status
+  }
+}
+
+subscription TodoAdded {
+  todo: todoAdded {
+    id
+    contents
+    status
+  }
+}
+
+subscription TodoDeleted {
+  todoID: todoDeleted
+}
+
+mutation AddTodo($contents: String!) {
+  addTodo(input: {contents: $contents}) {
+    id
+  }
+}
+
+mutation DeleteTodo($id: ID!) {
+  deleteTodo(id: $id)
+}

@@ -1,0 +1,33 @@
+schema: 
+  - src/graphql/schema/*.graphql
+  - src/graphql/schema/**/*.graphql
+documents:
+  - src/**/*.graphql
+config:
+  avoidOptionals: true
+  useTypeImports: true
+hooks:
+  afterOneFileWrite:
+    - eslint --fix
+overwrite: true
+generates:
+  src/graphql/schema.generated.ts:
+    plugins:
+      - add:
+          content: "// Generated file. Do not edit!\n"
+      - typescript
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: ~~graphql/schema.generated
+      extension: '.generated.ts'
+      importTypesNamespace: SchemaTypes
+    config:
+      urqlImportFrom: '@urql/preact'
+      onlyOperationTypes: true
+      preResolveTypes: true
+    plugins:
+      - add:
+          content: "// Generated file. Do not edit!\n"
+      - typescript-operations
+      - typescript-urql
