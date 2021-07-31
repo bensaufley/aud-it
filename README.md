@@ -1,7 +1,7 @@
-# graphql-preact-starter
+# aud-it
 
-A starter configuration for a self-contained GraphQL server/client Docker
-image.
+Docker container (built with [Unraid] in mind) for a self-hosted audiobook
+library.
 
 Uses Golang, Sqlite3 and GraphQL on the backend and Preact and GraphQL on
 the frontend.
@@ -50,6 +50,7 @@ are also some helper scripts to make life a little easier:
 - `script/go` passes arguments to `go` in the `server` directory, e.g.
   `script/go vet ./...`
 
+[unraid]: https://unraid.net
 [graphql-go]: https://github.com/graph-gophers/graphql-go
 [gql-example]: https://github.com/tonyghita/graphql-go-example
 [scripts to rule them all]: https://github.com/github/scripts-to-rule-them-all
