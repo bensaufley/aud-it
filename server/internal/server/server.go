@@ -8,6 +8,7 @@ import (
 
 	"github.com/bensaufley/aud-it/internal/graphiql"
 	"github.com/bensaufley/aud-it/internal/graphql"
+	"github.com/bensaufley/aud-it/internal/identity"
 	"github.com/pkg/errors"
 
 	log "github.com/sirupsen/logrus"
@@ -39,12 +40,13 @@ func New(cfg *graphql.Config) (*http.ServeMux, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "could not initialize GraphQL handler")
 	}
+	db, _ := cfg.DB.Get()
 
 	mux := http.NewServeMux()
 
 	mux.Handle("/static/", HandleStatic("/static", "/public"))
 	mux.Handle("/graphiql", graphiql.Serve)
-	mux.Handle("/graphql", gqlhandler)
+	mux.Handle("/graphql", identity.Middleware(db, gqlhandler))
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "/public/index.html")
 	})

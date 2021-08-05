@@ -15,9 +15,13 @@ import (
 type Config struct {
 	DBPath         string
 	MigrationsPath string
+	db             *sql.DB
 }
 
 func (cfg *Config) Get() (*sql.DB, error) {
+	if cfg.db != nil {
+		return cfg.db, nil
+	}
 	db, err := sql.Open("sqlite3", fmt.Sprintf("file:%s?mode=rwc", cfg.DBPath))
 	if err != nil {
 		return nil, errors.Wrap(err, "could not open database")
@@ -40,5 +44,6 @@ func (cfg *Config) Get() (*sql.DB, error) {
 			return nil, errors.Wrap(err, "could not run migrations")
 		}
 	}
+	cfg.db = db
 	return db, nil
 }
