@@ -1,0 +1,4 @@
+enum ImportStatus {
+  Pending
+  Complete
+}

@@ -1,4 +1,2 @@
 type Subscription {
-  todoAdded: Todo!
-  todoDeleted: ID!
 }

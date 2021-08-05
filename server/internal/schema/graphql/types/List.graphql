@@ -1,0 +1,6 @@
+type List {
+  id: ID!
+  name: String!
+  books: [Book!]!
+  user: User!
+}

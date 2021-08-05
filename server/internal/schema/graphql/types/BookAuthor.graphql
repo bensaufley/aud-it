@@ -1,0 +1,6 @@
+type BookAuthor {
+  id: ID!
+  author: Author!
+  book: Book!
+  meta: String
+}

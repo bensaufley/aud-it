@@ -2,65 +2,26 @@ package resolver
 
 import (
 	"context"
-	"strings"
 
+	"github.com/bensaufley/aud-it/internal/resolvers"
 	"github.com/graph-gophers/graphql-go"
 )
 
-type TodoStatus string
-
-const (
-	Unstarted  TodoStatus = "Unstarted"
-	InProgress TodoStatus = "In Progress"
-	Abandoned  TodoStatus = "Abandoned"
-	Complete   TodoStatus = "Complete"
-	Deleted    TodoStatus = "Deleted"
-)
-
-func (t TodoStatus) ToGQLEnum() string {
-	switch t {
-	case InProgress:
-		return "IN_PROGRESS"
-	default:
-		return strings.ToUpper(string(t))
-	}
+func (r *Resolver) GetBook(ctx context.Context, args struct{ ID graphql.ID }) (*resolvers.NullableBookResolver, error) {
+	return nil, nil
 }
 
-type Todo struct {
-	ID       graphql.ID
-	Contents string
-	status   TodoStatus
+func (r *Resolver) GetBooks(ctx context.Context, args struct {
+	Author *graphql.ID
+	Genre  *graphql.ID
+}) ([]resolvers.BookResolver, error) {
+	return []resolvers.BookResolver{}, nil
 }
 
-func (r *Resolver) GetTodos(ctx context.Context) ([]Todo, error) {
-	rows, err := r.DB.QueryContext(ctx, `SELECT t.ulid, contents, val FROM todos t JOIN todo_statuses s ON todo_status_id = s.id WHERE s.val != 'Deleted';`)
-	response := []Todo{}
-	if err != nil {
-		return response, err
-	}
-	defer rows.Close()
-	for rows.Next() {
-		todo := Todo{}
-		if err := rows.Scan(&todo.ID, &todo.Contents, &todo.status); err != nil {
-			return []Todo{}, err
-		}
-		response = append(response, todo)
-	}
-	return response, nil
+func (r *Resolver) GetList(ctx context.Context, args struct{ ID graphql.ID }) (*resolvers.NullableListResolver, error) {
+	return nil, nil
 }
 
-func (r *Resolver) GetTodo(ctx context.Context, args *struct{ ID string }) (*Todo, error) {
-	rows := r.DB.QueryRowContext(ctx, `SELECT t.ulid, contents, val FROM todos t JOIN todo_statuses s ON todo_status_id = s.id WHERE t.ulid = ?`, args.ID)
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	todo := Todo{}
-	if err := rows.Scan(&todo.ID, &todo.Contents, &todo.status); err != nil {
-		return nil, err
-	}
-	return &todo, nil
-}
-
-func (t Todo) Status() string {
-	return t.status.ToGQLEnum()
+func (r *Resolver) GetLists(ctx context.Context) ([]resolvers.ListResolver, error) {
+	return []resolvers.ListResolver{}, nil
 }

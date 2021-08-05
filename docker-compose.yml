@@ -6,10 +6,10 @@ services:
     command:
       - ./script/dev
     volumes:
-      - jsbuild:/usr/src/graphql-preact-starter/.build
-      - ./server/internal/schema/graphql:/usr/src/graphql-preact-starter/src/graphql/schema
+      - jsbuild:/usr/src/aud-it/.build
+      - ./server/internal/schema/graphql:/usr/src/aud-it/src/graphql/schema
 
-      - ./client:/usr/src/graphql-preact-starter
+      - ./client:/usr/src/aud-it
       - ./server/internal/schema/graphql:/schema
   server:
     build:
@@ -19,11 +19,11 @@ services:
     ports:
       - '4510:8080'
     volumes:
-      - db:/db
+      - storage:/storage
       - jsbuild:/public
 
-      - ./server:/go/src/github.com/bensaufley/graphql-preact-starter
+      - ./server:/go/src/github.com/bensaufley/aud-it
 volumes:
-  db:
+  storage:
   jsbuild:
     

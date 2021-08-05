@@ -8,8 +8,8 @@ import (
 	"github.com/graph-gophers/graphql-transport-ws/graphqlws"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/bensaufley/graphql-preact-starter/internal/db"
-	"github.com/bensaufley/graphql-preact-starter/internal/resolver"
+	"github.com/bensaufley/aud-it/internal/db"
+	"github.com/bensaufley/aud-it/internal/resolver"
 )
 
 type Config struct {

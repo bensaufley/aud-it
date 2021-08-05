@@ -7,5 +7,5 @@ WORKDIR /tmp
 COPY package*.json ./
 RUN npm install
 
-WORKDIR /usr/src/graphql-preact-starter
+WORKDIR /usr/src/aud-it
 RUN mv /tmp/package*.json /tmp/node_modules ./

@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"regexp"
 
-	"github.com/bensaufley/graphql-preact-starter/internal/graphiql"
-	"github.com/bensaufley/graphql-preact-starter/internal/graphql"
+	"github.com/bensaufley/aud-it/internal/graphiql"
+	"github.com/bensaufley/aud-it/internal/graphql"
 	"github.com/pkg/errors"
 
 	log "github.com/sirupsen/logrus"

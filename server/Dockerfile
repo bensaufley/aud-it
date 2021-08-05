@@ -9,7 +9,7 @@ RUN apt-get update && \
 RUN curl -sSfL https://raw.githubusercontent.com/cosmtrek/air/master/install.sh | \
   sh -s -- -b "$(go env GOPATH)/bin"
 
-WORKDIR /go/src/github.com/bensaufley/graphql-preact-starter
+WORKDIR /go/src/github.com/bensaufley/aud-it
 COPY go.mod go.sum ./
 RUN go mod download
 

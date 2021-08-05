@@ -4,5 +4,5 @@ cd "$(dirname "$0")/.."
 
 docker build \
   --file Dockerfile \
-  --tag graphql-preact-starter:latest \
+  --tag aud-it:latest \
   .

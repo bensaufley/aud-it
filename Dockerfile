@@ -1,6 +1,6 @@
 FROM golang:1.16-alpine as go-builder
 
-WORKDIR /go/src/github.com/bensaufley/graphql-preact-starter
+WORKDIR /go/src/github.com/bensaufley/aud-it
 COPY ./server/go.mod ./server/go.sum ./
 RUN go mod download
 
@@ -9,7 +9,7 @@ RUN apk add --no-cache \
         libc6-compat \
         musl-dev
 
-COPY ./server/ /go/src/github.com/bensaufley/graphql-preact-starter/
+COPY ./server/ /go/src/github.com/bensaufley/aud-it/
 
 RUN CGO_ENABLED=1 GOARCH=amd64 GOOS=linux go build -a -installsuffix 'static' -o serve ./cmd/serve
 
@@ -19,11 +19,11 @@ WORKDIR /tmp
 COPY ./client/package*.json ./
 RUN npm install
 
-WORKDIR /usr/src/graphql-preact-starter
+WORKDIR /usr/src/aud-it
 RUN mv /tmp/package*.json /tmp/node_modules ./
 
-COPY ./client/ /usr/src/graphql-preact-starter/
-COPY ./server/internal/schema/graphql/ /usr/src/graphql-preact-starter/src/graphql/schema/
+COPY ./client/ /usr/src/aud-it/
+COPY ./server/internal/schema/graphql/ /usr/src/aud-it/src/graphql/schema/
 
 ENV NODE_ENV=production
 
@@ -38,8 +38,8 @@ RUN apk add --no-cache \
         libc6-compat
 
 WORKDIR /app
-COPY --from=go-builder /go/src/github.com/bensaufley/graphql-preact-starter/serve .
-COPY --from=node-builder /usr/src/graphql-preact-starter/.build /public
+COPY --from=go-builder /go/src/github.com/bensaufley/aud-it/serve .
+COPY --from=node-builder /usr/src/aud-it/.build /public
 COPY ./server/migrations/ ./migrations/
 
 VOLUME [ "/storage" ]

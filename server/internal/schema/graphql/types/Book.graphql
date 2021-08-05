@@ -1,0 +1,8 @@
+type Book {
+  id: ID!
+  title: String!
+  authors: [BookAuthor!]!
+  genres: [Genre!]!
+  duration: Int
+  importStatus: ImportStatus!
+}

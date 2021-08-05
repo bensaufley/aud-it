@@ -5,10 +5,10 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/bensaufley/graphql-preact-starter/internal/db"
-	"github.com/bensaufley/graphql-preact-starter/internal/graphql"
-	"github.com/bensaufley/graphql-preact-starter/internal/schema"
-	"github.com/bensaufley/graphql-preact-starter/internal/server"
+	"github.com/bensaufley/aud-it/internal/db"
+	"github.com/bensaufley/aud-it/internal/graphql"
+	"github.com/bensaufley/aud-it/internal/schema"
+	"github.com/bensaufley/aud-it/internal/server"
 )
 
 func main() {
@@ -18,10 +18,6 @@ func main() {
 			MigrationsPath: "migrations",
 		},
 		SchemaString: schema.String,
-	}
-
-	if err := cfg.DB.InitFile(); err != nil {
-		log.WithError(err).Fatal("could not initialize database")
 	}
 
 	mux, err := server.New(cfg)

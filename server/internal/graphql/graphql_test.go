@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/bensaufley/graphql-preact-starter/internal/db"
-	"github.com/bensaufley/graphql-preact-starter/internal/graphql"
-	"github.com/bensaufley/graphql-preact-starter/internal/schema"
+	"github.com/bensaufley/aud-it/internal/db"
+	"github.com/bensaufley/aud-it/internal/graphql"
+	"github.com/bensaufley/aud-it/internal/schema"
 
 	"github.com/stretchr/testify/assert"
 )

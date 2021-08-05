@@ -1,4 +1,4 @@
-module github.com/bensaufley/graphql-preact-starter
+module github.com/bensaufley/aud-it
 
 go 1.16
 

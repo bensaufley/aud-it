@@ -1,4 +1,6 @@
 type Query {
-  getTodos: [Todo!]!
-  getTodo(id: ID!): Todo
+  getBook(id: ID!): Book
+  getBooks(author: ID, genre: ID): [Book!]!
+  getList(id: ID!): List
+  getLists(): [List!]!
 }
