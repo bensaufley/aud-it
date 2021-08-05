@@ -3,7 +3,6 @@ package resolvers
 import (
 	"context"
 	"database/sql"
-	"errors"
 
 	"github.com/bensaufley/aud-it/internal/entities/list"
 )
@@ -17,7 +16,7 @@ type NullableListResolver ListResolver
 
 func (l *NullableListResolver) User(ctx context.Context) (UserResolver, error) {
 	if l == nil {
-		return UserResolver{}, errors.New("list is null")
+		return UserResolver{}, nil
 	}
 	return ListResolver(*l).User(ctx)
 }

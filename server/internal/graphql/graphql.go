@@ -1,11 +1,8 @@
 package graphql
 
 import (
-	"net/http"
-
 	"github.com/graph-gophers/graphql-go"
 	"github.com/graph-gophers/graphql-go/relay"
-	"github.com/graph-gophers/graphql-transport-ws/graphqlws"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/bensaufley/aud-it/internal/db"
@@ -17,7 +14,7 @@ type Config struct {
 	SchemaString func() (string, error)
 }
 
-func (cfg *Config) NewHandler() (http.HandlerFunc, error) {
+func (cfg *Config) NewHandler() (*relay.Handler, error) {
 	s, err := cfg.SchemaString()
 	if err != nil {
 		log.WithError(err).Fatal("could not build schema string")
@@ -31,5 +28,5 @@ func (cfg *Config) NewHandler() (http.HandlerFunc, error) {
 	if err != nil {
 		log.WithError(err).Fatal("could not parse schema")
 	}
-	return graphqlws.NewHandlerFunc(schm, &relay.Handler{Schema: schm}), nil
+	return &relay.Handler{Schema: schm}, nil
 }

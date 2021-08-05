@@ -1,5 +1,4 @@
 schema {
   mutation: Mutation
   query: Query
-  subscription: Subscription
 }
